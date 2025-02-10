@@ -1,45 +1,30 @@
-import { Flex, Layout } from 'antd';
+import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
+import AppHeader from "./components/layouts/Header/AppHeader.jsx";
+import AppSider from "./components/layouts/Sider/AppSider.jsx";
+import AppContent from "./components/layouts/Content/AppContent.jsx";
+import {RealCryptoData, FakeCryptoData} from "./Api.js"
 
-const headerStyle = {
-  textAlign: 'center',
-  color: '#fff',
-  height: 60,
-  paddingInline: 48,
-  lineHeight: '64px',
-  backgroundColor: '#4096ff',
-};
-const contentStyle = {
-  textAlign: 'center',
-  minHeight: 'calc(100vh - 64px)',
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#0958d9',
-};
-const siderStyle = {
-  textAlign: 'center',
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#1677ff',
-};
+
 
 const layoutStyle = {
   borderRadius: 8,
   overflow: 'hidden',
-  width: 'calc(50% - 8px)',
-  maxWidth: 'calc(50% - 8px)',
+  width: '100%',
+  maxWidth: '100%',
 };
 
 export default function App() {
-
+    // RealCryptoData();
+    FakeCryptoData().then(data =>{
+        console.log(data);
+    })
   return (
       <Layout style={layoutStyle}>
-        <Header style={headerStyle}>Header</Header>
+        <AppHeader />
         <Layout>
-          <Sider width="25%" style={siderStyle}>
-            Sider
-          </Sider>
-          <Content style={contentStyle}>Content</Content>
+          <AppSider />
+          <AppContent />
         </Layout>
       </Layout>
   )
