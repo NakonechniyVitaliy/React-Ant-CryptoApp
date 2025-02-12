@@ -1,3 +1,5 @@
+// https://openapi.coinstats.app/
+
 import { cryptoData, cryptoAssets} from './data.js'
 import axios from "axios";
 
@@ -17,6 +19,14 @@ export function FakeCryptoData(){
     return new Promise((resolve) => {
         setTimeout(()=>{
             resolve (cryptoData) ;
+        }, 1000)
+    })
+}
+
+export function AssetsData(){
+    return new Promise((resolve) => {
+        setTimeout(()=>{
+            resolve (cryptoAssets) ;
         }, 1000)
     })
 }

@@ -16,9 +16,9 @@ const layoutStyle = {
 
 export default function App() {
     // RealCryptoData();
-    FakeCryptoData().then(data =>{
-        console.log(data);
-    })
+    // FakeCryptoData().then(data =>{
+    //     console.log(data.result);
+    // })
   return (
       <Layout style={layoutStyle}>
         <AppHeader />
