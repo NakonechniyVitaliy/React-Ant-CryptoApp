@@ -1,9 +1,10 @@
 import {Layout} from "antd";
-import { Card, Statistic, List, Typography, Tag, Spin} from 'antd';
+import { Card, Statistic, List, Typography, Tag } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import {FakeCryptoData, AssetsData} from '../../../Api.js';
-import {useEffect, useState} from "react";
-import { percentDifference, capitalize } from "../../../utils.js"
+import {useContext} from "react";
+import {CryptoContext} from "../../context/crypto-context.jsx";
+import {capitalize} from "../../utils.js";
+
 
 const siderStyle = {
     textAlign: 'center',
@@ -13,38 +14,8 @@ const siderStyle = {
 };
 
 export default function AppSider(){
+    const {loading, assets} = useContext(CryptoContext)
 
-    const [loading, setLoading] = useState();
-    const [crypto, setCrypto] = useState([]);
-    const [assets, setAssets] = useState([]);
-
-    useEffect(()=>{
-        async function preload(){
-            setLoading(true);
-            const assets = await AssetsData();
-            const { result } = await FakeCryptoData();
-
-            setAssets(assets.map((asset) =>{
-                const coin = result.find((c) => c.id === asset.id)
-
-                return {
-                    grow: coin.price > asset.price,
-                    growPercent: percentDifference(coin.price, asset.price),
-                    totalAmount: asset.amount * coin.price,
-                    totalProfit: (asset.amount * coin.price - asset.amount * asset.price).toFixed(2),
-                    ...asset,
-                    }
-                })
-            );
-            setCrypto(result);
-            setLoading(false);
-        }
-        preload();
-    }, [])
-
-    if(loading){
-        return <Spin fullscreen />
-    }
 
     return (
         <Layout.Sider width="50%" style={siderStyle}>
@@ -57,7 +28,7 @@ export default function AppSider(){
                         textAlign: "left",
                         marginLeft: 20,
                         marginTop: 10,
-                    }}>
+                }}>
                     <Statistic
                         title={capitalize(asset.id)}
                         value={asset.totalAmount}
@@ -95,10 +66,7 @@ export default function AppSider(){
                             </List.Item>}
                     />
                 </Card>
-
             ))}
-
-
         </Layout.Sider>
     )
 }
