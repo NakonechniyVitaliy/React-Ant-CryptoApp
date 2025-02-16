@@ -3,7 +3,6 @@ import {Layout} from "antd";
 const contentStyle = {
     textAlign: 'center',
     minHeight: 'calc(100vh - 60px)',
-    minWidth: '100%',
     lineHeight: '120px',
     color: '#fff',
     backgroundColor: '#0958d9',

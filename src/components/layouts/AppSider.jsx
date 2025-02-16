@@ -5,20 +5,25 @@ import {useContext} from "react";
 import {CryptoContext} from "../../context/crypto-context.jsx";
 import {capitalize} from "../../utils.js";
 
-
-const siderStyle = {
-    textAlign: 'center',
-    lineHeight: '120px',
-    color: '#fff',
-    backgroundColor: '#1677ff',
-};
-
 export default function AppSider(){
     const {loading, assets} = useContext(CryptoContext)
+    const siderStyle = {
+        minHeight: 'calc(100vh - 60px)',
+    }
+    const siderTitle = {
+        fontSize: '21px',
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: '15px',
+    }
 
 
     return (
-        <Layout.Sider width="50%" style={siderStyle}>
+        <Layout.Sider style={siderStyle} width={360}>
+            <p style={siderTitle}>
+                My assets
+            </p>
             {assets.map((asset) => (
                 <Card key={asset.id}
                     size="small"
@@ -26,7 +31,8 @@ export default function AppSider(){
                         width: 300,
                         marginBottom: 10,
                         textAlign: "left",
-                        marginLeft: 20,
+                        marginLeft: 30,
+                        marginRight: 30,
                         marginTop: 10,
                 }}>
                     <Statistic
