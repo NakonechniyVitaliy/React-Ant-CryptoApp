@@ -48,9 +48,9 @@ export default function AppHeader() {
             document.removeEventListener("keydown", handleKeyPress);
         };
     })
-
+1
     function handleSelect(value){
-        setCoin(value);
+        setCoin(crypto.find((c) => c.id === value));
         setIsModalOpen(true);
     }
 
