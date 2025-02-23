@@ -1,8 +1,8 @@
 import { Layout, Select, Space, Modal, Drawer, Button } from 'antd';
 import {CryptoContext} from "../../context/crypto-context.jsx";
 import {useContext, useEffect, useState} from "react";
-import ModalContent from "../modalContent.jsx"
-
+import ModalContent from "../ModalContent.jsx"
+import FormAsset from "../FormAsset.jsx";
 
 
 const headerStyle = {
@@ -29,7 +29,7 @@ const headerElementRight = {
 export default function AppHeader() {
     const [cryptoListSelect, setCryptoListSelect] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(true);
     const [coin, setCoin] = useState();
 
 
@@ -96,10 +96,11 @@ export default function AppHeader() {
                    <ModalContent coin={coin}/>
             </Modal>
 
-            <Drawer title="Basic Drawer" onClose={() => setIsDrawerOpen(false)} open={isDrawerOpen}>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+            <Drawer title="Basic Drawer"
+                    onClose={() => setIsDrawerOpen(false)}
+                    open={isDrawerOpen}
+                    destroyOnClose>
+                <FormAsset />
             </Drawer>
 
         </Layout.Header>
