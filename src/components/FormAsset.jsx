@@ -1,12 +1,16 @@
 
 import {useContext, useState} from "react";
-import {Select, Space, Form, Input, Button, Typography, Flex, InputNumber} from "antd";
+import {Select, Space, Form, Input, Button, Typography, Flex, InputNumber, DatePicker} from "antd";
 import {CryptoContext} from "../context/crypto-context.jsx";
 
 export default function FormAsset(){
-
+    const [form] = Form.useForm();
     const [coin, setCoin] = useState();
     const {crypto} = useContext(CryptoContext)
+
+    const onOk = (value) => {
+        console.log('onOk: ', value);
+    };
 
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -14,6 +18,22 @@ export default function FormAsset(){
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+
+    function handleAmountChange(value){
+        const price = form.getFieldValue('price')
+        form.setFieldsValue({
+            total: +(value * price).toFixed(2),
+        })
+    }
+
+    function handlePriceChange(value){
+        const amount = form.getFieldValue('amount')
+        form.setFieldsValue({
+            total: +(amount * value).toFixed(2),
+        })
+
+    }
+
     if(!coin){
         return (
             <Select
@@ -50,6 +70,7 @@ export default function FormAsset(){
             </Flex>
 
             <Form
+                form={form}
                 name="basic"
                 labelCol={{
                     span: 6,
@@ -62,33 +83,43 @@ export default function FormAsset(){
                     maxWidth: 600,
                 }}
                 initialValues={{
-                    remember: true,
+                    price: coin.price.toFixed(3),
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 <Form.Item
+                    placeholder="Enter coin amount"
                     label="Amount"
                     name="amount"
                     rules={[
                         {
                             required: true,
-                            type: 'number',
+                            type: "number",
                             min: 0,
                             message: 'Please input Amount!',
                         },
                     ]}
                 >
-                    <InputNumber style={{width:'100%'}} />
+                    <InputNumber onChange={handleAmountChange} style={{width:'100%'}} />
                 </Form.Item>
 
-                <Form.Item label="Price"
-                    name="price"
-                >
-                    <InputNumber style={{width:'100%'}}/>
+                <Form.Item label="Price" name="price">
+                    <InputNumber
+                        style={{width:'100%'}}
+                        value={coin.price}
+                        onChange={handlePriceChange}
+                    />
                 </Form.Item>
 
+                <Form.Item label="Date&Time" name="dateTime">
+                    <DatePicker style={{width:'100%'}} showTime />
+                </Form.Item>
+
+                <Form.Item label="Total" name="total">
+                    <InputNumber style={{width:'100%'}} disabled/>
+                </Form.Item>
 
                 <Form.Item label={null}>
                     <Button type="primary" htmlType="submit">
