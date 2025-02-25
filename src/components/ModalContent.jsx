@@ -1,15 +1,10 @@
 import { Typography, Tag, Flex, Divider } from 'antd';
+import CoinInfo from "./CoinInfo.jsx";
 
 export default function ModalContent({coin}){
     return (
         <>
-            <Flex align='center'>
-                <img src={coin.icon} alt={coin.name} style={{width: 40, height: 40}}/>
-                <Typography.Title level={2} style={{marginBottom: 0, marginLeft:10 }}>
-                    {coin.name} ({coin.symbol})
-                </Typography.Title>
-            </Flex>
-
+            <CoinInfo coin={coin} />
             <Divider></Divider>
 
             <Typography.Paragraph strong style={{marginTop: 10, fontSize: 16}}>

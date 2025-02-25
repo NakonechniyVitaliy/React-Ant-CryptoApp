@@ -33,7 +33,7 @@ export default function AppHeader() {
     const [coin, setCoin] = useState();
 
 
-    const {crypto} = useContext(CryptoContext)
+    const {crypto, addAsset} = useContext(CryptoContext)
 
     useEffect(() => {
         const handleKeyPress = (event) => {

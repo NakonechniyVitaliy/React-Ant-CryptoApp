@@ -1,19 +1,31 @@
 
-import {useContext, useState} from "react";
-import {Select, Space, Form, Input, Button, Typography, Flex, InputNumber, DatePicker} from "antd";
+import {useContext, useRef, useState} from "react";
+import {Select, Space, Form, Button, InputNumber, DatePicker, Divider} from "antd";
 import {CryptoContext} from "../context/crypto-context.jsx";
+import DrawerResult from "./DrawerResult.jsx";
+import CoinInfo from "./CoinInfo.jsx";
+
 
 export default function FormAsset(){
     const [form] = Form.useForm();
     const [coin, setCoin] = useState();
-    const {crypto} = useContext(CryptoContext)
+    const [showDrawerResult, setShowDrawerResult] = useState(false);
 
-    const onOk = (value) => {
-        console.log('onOk: ', value);
-    };
+    const assetRef = useRef();
+    const {crypto, addAsset} = useContext(CryptoContext)
 
     const onFinish = (values) => {
-        console.log('Success:', values);
+
+        assetRef.current = {
+            id: coin.id,
+            amount: values.amount,
+            price: values.price,
+            date: values.date?.$d ?? new Date(),
+        }
+
+        addAsset(assetRef.current);
+
+        setShowDrawerResult(true)
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -60,20 +72,22 @@ export default function FormAsset(){
         )
     }
 
+    if(showDrawerResult){
+        return (
+            <DrawerResult assetRef={assetRef}/>
+        )
+    }
+
     return (
         <>
-            <Flex align='center'>
-                <img src={coin.icon} alt={coin.name} style={{width: 30, height: 30}}/>
-                <Typography.Title level={3} style={{marginBottom: 0, marginLeft:10 }}>
-                    {coin.name} ({coin.symbol})
-                </Typography.Title>
-            </Flex>
+            <CoinInfo coin={coin}/>
+            <Divider></Divider>
 
             <Form
                 form={form}
                 name="basic"
                 labelCol={{
-                    span: 6,
+                    span: 6
                 }}
                 wrapperCol={{
                     span: 16,
@@ -122,11 +136,15 @@ export default function FormAsset(){
                 </Form.Item>
 
                 <Form.Item label={null}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        style={{width:'50%', backgroundColor: 'lightgreen', color: 'black'}}>
+                            Submit
                     </Button>
                 </Form.Item>
             </Form>
+
         </>
     )
 }
