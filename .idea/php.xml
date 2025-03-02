@@ -141,6 +141,7 @@
       <path value="$PROJECT_DIR$/_backend/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/_backend/vendor/masterminds/html5" />
       <path value="$PROJECT_DIR$/_backend/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/_backend/vendor/symfonycasts/verify-email-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
