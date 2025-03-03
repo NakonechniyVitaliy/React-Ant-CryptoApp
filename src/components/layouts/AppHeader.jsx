@@ -3,7 +3,7 @@ import {CryptoContext} from "../../context/crypto-context.jsx";
 import {useContext, useEffect, useState} from "react";
 import ModalContent from "../ModalContent.jsx"
 import FormAsset from "../FormAsset.jsx";
-
+import AuthenticationModal from "../AuthenticationModal.jsx"
 
 const headerStyle = {
     color: 'black',
@@ -29,9 +29,10 @@ const headerElementRight = {
 export default function AppHeader() {
     const [cryptoListSelect, setCryptoListSelect] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [coin, setCoin] = useState();
-
+    const [loginModal, setLoginModal] = useState(false);
+    const [RegistrationModal, setRegistrationModal] = useState(false);
 
     const {crypto, addAsset} = useContext(CryptoContext)
 
@@ -77,30 +78,55 @@ export default function AppHeader() {
                     )}
                     optionRender={(option) => (
                         <Space>
-                            <img style={{width: 25}} src={option.data.icon} />
+                            <img style={{width: 25}} src={option.data.icon}/>
                             {option.data.name}
                         </Space>
                     )}
                 />
             </div>
 
+            {/* ---------------- Login Modal ---------------- */}
+                <div style={{marginRight: 10}}>
+                    <Button type="primary" onClick={() => setLoginModal(true)}>Login</Button>
+                </div>
+                <Modal title="Login"
+                       open={loginModal}
+                       footer={null}
+                       onCancel={() => setLoginModal(false)}>
+                       <AuthenticationModal login={true}/>
+                </Modal>
+            {/* ---------------- End Login Modal ---------------- */}
 
-            <div style={headerElement}></div>
+
+            {/* ---------------- Registration Modal ---------------- */}
+                <div>
+                    <Button type="primary" onClick={() => setRegistrationModal(true)}>Registration</Button>
+                </div>
+                <Modal title="Registration"
+                       open={RegistrationModal}
+                       footer={null}
+                       onCancel={() => setRegistrationModal(false)}>
+                    <AuthenticationModal registration={true}/>
+                </Modal>
+            {/* ---------------- End Registration Modal ---------------- */}
+
+
             <div style={{...headerElement, ...headerElementRight}}>
                 <Button type="primary" onClick={() => setIsDrawerOpen(true)}>Add Asset</Button>
             </div>
 
+
             <Modal open={isModalOpen}
                    onCancel={() => setIsModalOpen(false)}
                    footer={null}>
-                   <ModalContent coin={coin}/>
+                <ModalContent coin={coin}/>
             </Modal>
 
             <Drawer title="Basic Drawer"
                     onClose={() => setIsDrawerOpen(false)}
                     open={isDrawerOpen}
                     destroyOnClose>
-                <FormAsset />
+                <FormAsset/>
             </Drawer>
 
         </Layout.Header>

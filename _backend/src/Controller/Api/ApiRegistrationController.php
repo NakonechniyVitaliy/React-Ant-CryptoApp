@@ -17,11 +17,14 @@ final class ApiRegistrationController extends AbstractController
     #[Route('/api/registration', name: 'app_registration')]
     public function index(Request $request, EntityManagerInterface $em): Response
 {
-        $currentUser = $this->getUser();
-        dump($currentUser);exit();
+        dump($request);exit();
 
-        $userAssets = $myUser->getAssets()->toArray();
-        dump($userAssets);exit();
+
+//        $currentUser = $this->getUser();
+//        dump($currentUser);exit();
+//
+//        $userAssets = $myUser->getAssets()->toArray();
+//        dump($userAssets);exit();
 
 
 //        $asset = new Asset();
@@ -41,8 +44,8 @@ final class ApiRegistrationController extends AbstractController
 //        $em->persist($user);
 //        $em->flush();
 
-        return $this->render('registration/index.html.twig', [
-            'controller_name' => 'RegistrationController',
-        ]);
+//        return $this->render('registration/index.html.twig', [
+//            'controller_name' => 'RegistrationController',
+//        ]);
     }
 }
