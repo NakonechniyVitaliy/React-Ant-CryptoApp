@@ -134,6 +134,7 @@
       <excludeFolder url="file://$MODULE_DIR$/_backend/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/_backend/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/_backend/vendor/symfonycasts/verify-email-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/_backend/vendor/nelmio/cors-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

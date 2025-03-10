@@ -5,24 +5,38 @@ import axios from "axios";
 export default function AuthenticationModal({login = false, registration = false}){
 
     const onFinish = (values) => {
-        console.log('Success:', values);
-        loginApiRequest(values);
+        if (registration){
+            RegistrationApiRequest(values);
+        }
+
+        if(login){
+            loginApiRequest(values);
+        }
     };
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
     function loginApiRequest(values){
-        axios.post('http://127.0.0.1:8000/api/registration', {
+        axios.post('http://127.0.0.1:8000/api/registration', values, {
             method: 'POST',
             headers: {
                 accept: 'application/json'
             },
-            data: values
         })
         .then(result => {console.log(result)})
     }
 
+    function RegistrationApiRequest(values){
+        axios.post('http://127.0.0.1:8000/api/registration', values, {
+            method: 'POST',
+            headers: {
+                accept: 'application/json'
+            }
+        })
+            .then(result => {console.log(result)})
+    }
 
 
     return (
@@ -82,9 +96,30 @@ export default function AuthenticationModal({login = false, registration = false
                 <Input.Password />
             </Form.Item>
 
-            <Form.Item name="remember" valuePropName="checked" label={null}>
-                <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+            { !login && (
+                <Form.Item
+                    label="Password repeat"
+                    name="PasswordRepeat"
+                    dependencies={['password']}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please repeat your password!',
+                        },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('Passwords do not match!'));
+                            },
+                        }),
+                    ]}>
+                    <Input.Password />
+                </Form.Item>
+            )}
+
+
 
             <Form.Item label={null}>
                 <Button type="primary" htmlType="submit">
