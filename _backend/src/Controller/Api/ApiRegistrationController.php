@@ -9,43 +9,31 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ApiRegistrationController extends AbstractController
 {
 
     #[Route('/api/registration', name: 'app_registration')]
-    public function index(Request $request, EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
 {
-        dump($request);exit();
+    //        $filePath = $this->getParameter('kernel.project_dir') . '/var/log/request_dump.log';
+    //        file_put_contents($filePath, $data . PHP_EOL, FILE_APPEND);
 
+        $data = json_decode($request->getContent(), true);
 
-//        $currentUser = $this->getUser();
-//        dump($currentUser);exit();
-//
-//        $userAssets = $myUser->getAssets()->toArray();
-//        dump($userAssets);exit();
+        $newUser = new User();
+        $newUser->setUsername($data['username']);
+        $newUser->setEmail($data['email']);
 
+        $hashedPassword = $passwordHasher->hashPassword($newUser, $data['password']);
+        $newUser->setPassword($hashedPassword);
 
-//        $asset = new Asset();
-//        $asset->setPurchasePrice(25234.82);
-//        $asset->setName('Solana');
-//        $asset->setAbbreviation('SLN');
-//        $asset->setUser($myUser);
-//
-//        $em->persist($asset);
-//        $em->flush();
+        $em->persist($newUser);
+        $em->flush();
 
+        return new Response('Data saved to file', Response::HTTP_OK);
 
-//        $user = new User();
-//        $user->setEmail('user1@gmail.com');
-//        $user->setPassword('userPassword123');
-//
-//        $em->persist($user);
-//        $em->flush();
-
-//        return $this->render('registration/index.html.twig', [
-//            'controller_name' => 'RegistrationController',
-//        ]);
     }
 }
